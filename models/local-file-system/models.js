@@ -1,17 +1,29 @@
 import { randomUUID } from 'node:crypto'
-import { readJSON } from '../../utils.js'
-
+import { readJSON, newRequire } from '../../utils.js'
+const axios = newRequire('axios')
+const qs = newRequire('qs')
 const movies = readJSON('./movies.json')
 
-export class MovieModel {
-  static async getAll ({ genre }) {
-    if (genre) {
-      return movies.filter(
-        movie => movie.genre.some(g => g.toLowerCase() === genre.toLowerCase())
-      )
+export class SunatModel {
+  static async getAll ({ id, clave, datos }) {
+    if (id && clave && datos) {
+      try {
+        const urlDestino = `https://api-seguridad.sunat.gob.pe/v1/clientesextranet/${id}/oauth2/token/` // URL a la que quieres hacer la petición POST
+        const datosSerializados = qs.stringify(datos)
+        // Realizar la petición POST
+        const respuesta = await axios.post(urlDestino, datosSerializados, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        })
+        // Aquí puedes manejar la respuesta
+        return respuesta // Si quieres imprimir la respuesta en la consola
+        // O hacer cualquier otra cosa con la respuesta recibida
+      } catch (error) {
+        return false
+      }
     }
-
-    return movies
+    return false
   }
 
   static async getById ({ id }) {
