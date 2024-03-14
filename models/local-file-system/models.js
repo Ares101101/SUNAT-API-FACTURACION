@@ -5,11 +5,11 @@ const qs = newRequire('qs')
 const movies = readJSON('./movies.json')
 
 export class SunatModel {
-  static async getAll ({ id, clave, datos }) {
-    if (id && clave && datos) {
+  static async getAll ({ id, clave, result }) {
+    if (id && clave && result) {
       try {
         const urlDestino = `https://api-seguridad.sunat.gob.pe/v1/clientesextranet/${id}/oauth2/token/` // URL a la que quieres hacer la petición POST
-        const datosSerializados = qs.stringify(datos)
+        const datosSerializados = qs.stringify(result)
         // Realizar la petición POST
         const respuesta = await axios.post(urlDestino, datosSerializados, {
           headers: {
@@ -20,7 +20,7 @@ export class SunatModel {
         return respuesta // Si quieres imprimir la respuesta en la consola
         // O hacer cualquier otra cosa con la respuesta recibida
       } catch (error) {
-        return false
+        return error
       }
     }
     return false

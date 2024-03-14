@@ -14,8 +14,8 @@ export class routeController {
     if (!result.success) {
       return res.status(400).json({ error: JSON.parse(result.error.message) })
     }
-    const user = await SunatModel.getAll({ id, clave, datos })
-    if (!user) return res.status(404).json({ message: 'User not found' })
+    const user = await SunatModel.getAll({ id, clave, result })
+    if (user.error) return res.status(404).json({ message: user.error })
     res.status(201).json(user)
   }
 
