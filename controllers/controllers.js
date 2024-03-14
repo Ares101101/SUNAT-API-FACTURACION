@@ -6,7 +6,7 @@ export class routeController {
     const { id, clave } = req.query
     const datos = {
       grant_type: 'client_credentials',
-      campo2: 'https://api.sunat.gob.pe/v1/contribuyente/contribuyentes',
+      scope: 'https://api.sunat.gob.pe/v1/contribuyente/contribuyentes',
       client_id: id,
       client_secret: clave
     }
