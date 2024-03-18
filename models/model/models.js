@@ -1,5 +1,5 @@
 import { readJSON } from '../../utils.js'
-import { SunatConection } from '../services/Sunat.js'
+import { SunatConection } from '../services/sunat.js'
 const movies = readJSON('./movies.json')
 
 export class SunatModel {
