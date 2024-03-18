@@ -1,29 +1,26 @@
-import { newRequire } from '../../utils.js'
-const querystring = newRequire('querystring')
-const https = newRequire('https')
+import axios from 'axios'
+import querystring from 'querystring'
 
-export class SunatConection {
+export class SunatConnection {
   static async generarToken (input) {
     const formData = querystring.stringify(input)
 
-    const req = https.request({
-      hostname: `https://api-seguridad.sunat.gob.pe/v1/clientesextranet/${input.client_id}/oauth2/token/`,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': Buffer.byteLength(formData)
+    try {
+      const response = await axios.post(
+        `https://api-seguridad.sunat.gob.pe/v1/clientesextranet/${input.client_id}/oauth2/token/`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }
+      )
+
+      return response.data
+    } catch (error) {
+      return {
+        error
       }
-    }, (res) => {
-      console.log(`Estado de la respuesta: ${res.statusCode}`)
-
-      res.on('data', (d) => {
-        process.stdout.write(d)
-      })
-    })
-
-    req.on('error', (error) => {
-      console.error(error)
-    })
-    req.end()
+    }
   }
 }

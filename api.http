@@ -21,6 +21,16 @@ Content-Type: application/json
   "client_id": "44a6b789-9b52-44e3-aaf9-ba9efd96e2c2",
   "client_secret": "qg2q9lUXfI7fvesWej3J9g=="
 }
+#### Crear una película con POST
+POST http://localhost:3000/sunat-api
+Content-Type: application/json   
+
+{
+  "grant_type": "client_credentials",
+  "scope": "https://api.sunat.gob.pe/v1/contribuyente/contribuyentes",
+  "client_id": "44a6b789-9b52-44e3-aaf9-ba9efd96e2c2",
+  "client_secret": "qg2q9lUXfI7fvesWej3J9g=="
+}
 
 #### Actualizar una pelicula
 PATCH http://localhost:3000/movies/f0bcd26e-941a-4d61-a38b-b851171ceeef

@@ -1,5 +1,5 @@
 import { readJSON } from '../../utils.js'
-import { SunatConection } from '../services/sunat.js'
+import { SunatConnection } from '../services/sunat.js'
 const movies = readJSON('./movies.json')
 
 export class SunatModel {
@@ -13,7 +13,7 @@ export class SunatModel {
   }
 
   static async create ({ input }) {
-    const token = await SunatConection.generarToken(input)
+    const token = await SunatConnection.generarToken(input)
     return token
   }
 
