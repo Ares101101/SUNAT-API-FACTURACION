@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto'
 import { readJSON } from '../../utils.js'
 import { SunatConection } from '../services/Sunat.js'
 const movies = readJSON('./movies.json')
