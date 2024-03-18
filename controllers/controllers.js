@@ -1,4 +1,4 @@
-import { SunatModel } from '../models/local-file-system/models.js'
+import { SunatModel } from '../models/model/models.js'
 import { validateSunat, validatePartialSunat } from '../schemas/sunat.js'
 
 export class routeController {
@@ -29,12 +29,12 @@ export class routeController {
 
   static async create (req, res) {
     const result = validateSunat(req.body)
-
+    console.log(result)
     if (!result.success) {
       return res.status(400).json({ error: JSON.parse(result.error.message) })
     }
-    const newMovie = await SunatModel.create({ input: result.data })
-    res.status(201).json(newMovie)
+    const newFactura = await SunatModel.create({ input: result.data })
+    res.status(201).json(newFactura)
   }
 
   static async delete (req, res) {
