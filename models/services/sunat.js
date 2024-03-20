@@ -1,28 +1,39 @@
-import axios from 'axios'
+import https from 'https'
 import querystring from 'querystring'
 
 export class SunatConnection {
   static async generarToken (input) {
-    // Convierte el objeto 'input' en una cadena de texto en formato de formulario URL-encoded
-    const formData = querystring.stringify(input)
+    return new Promise((resolve, reject) => {
+      const formData = querystring.stringify(input)
 
-    try {
-      const response = await axios.post(
-        `https://api-seguridad.sunat.gob.pe/v1/clientesextranet/${input.client_id}/oauth2/token/`,
-        formData,
-        // Aquí se pasa la cadena de texto como cuerpo de la solicitud
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-            // Este encabezado indica que el cuerpo de la solicitud está en formato de formulario URL-encoded
-          }
+      const req = https.request({
+        hostname: 'api-seguridad.sunat.gob.pe',
+        path: `/v1/clientesextranet/${input.client_id}/oauth2/token/`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': Buffer.byteLength(formData)
         }
-      )
-      return response.data
-    } catch (error) {
-      return {
-        error
-      }
-    }
+      }, (res) => {
+        let responseData = ''
+
+        res.on('data', (chunk) => {
+          responseData += chunk
+        })
+
+        res.on('end', () => {
+          console.log(`Estado de la respuesta: ${res.statusCode}`)
+          resolve(JSON.parse(responseData))
+        })
+      })
+
+      req.on('error', (error) => {
+        console.error(error)
+        reject(error)
+      })
+
+      req.write(formData)
+      req.end()
+    })
   }
 }
